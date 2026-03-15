@@ -3,7 +3,6 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kommandhub/paystack.svg?style=flat-square)](https://packagist.org/packages/kommandhub/paystack)
 [![Total Downloads](https://img.shields.io/packagist/dt/kommandhub/paystack.svg?style=flat-square)](https://packagist.org/packages/kommandhub/paystack)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Tests](https://github.com/kommandhub/paystack/actions/workflows/tests.yml/badge.svg)](https://github.com/kommandhub/paystack/actions)
 
 A framework-agnostic PHP library for integrating Paystack payments using SOLID principles and PSR standards. This library provides a clean, object-oriented interface to the Paystack API while remaining flexible enough to work in any PHP environment.
 
