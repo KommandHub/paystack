@@ -58,7 +58,7 @@ To use the library, instantiate the `Paystack` gateway class with your secret ke
 use Kommandhub\Paystack\Paystack;
 
 $paystack = new Paystack(
-    secretKey: 'your_secret_key_here...',
+    secretKey: 'your_secret_key_here',
     client: $psr18Client,         // Instance of Psr\Http\Client\ClientInterface
     requestFactory: $psr17Factory, // Instance of Psr\Http\Message\RequestFactoryInterface
     streamFactory: $psr17Factory   // Instance of Psr\Http\Message\StreamFactoryInterface
@@ -287,7 +287,7 @@ php artisan vendor:publish --tag="paystack-config"
 
 Add your secret key to `.env`:
 ```env
-PAYSTACK_SECRET_KEY=your_secret_key_here_key
+PAYSTACK_SECRET_KEY=your_secret_key_here
 ```
 
 ### Usage in Laravel
