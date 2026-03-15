@@ -1,5 +1,6 @@
 {
     "name": "kommandhub/paystack",
+    "description": "A framework-agnostic PHP library for integrating Paystack payments using SOLID principles and PSR standards.",
     "type": "library",
     "license": "MIT",
     "keywords": [
