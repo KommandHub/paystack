@@ -14,6 +14,8 @@ class Transaction extends ApiResource
     /**
      * Initialize a transaction.
      *
+     * @see https://paystack.com/docs/api/transaction/#initialize
+     *
      * @throws PaystackException
      */
     public function initialize(array $payload): array
@@ -23,6 +25,8 @@ class Transaction extends ApiResource
 
     /**
      * Verify a transaction.
+     *
+     * @see https://paystack.com/docs/api/transaction/#verify
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Transaction extends ApiResource
     /**
      * List transactions.
      *
+     * @see https://paystack.com/docs/api/transaction/#list
+     *
      * @throws PaystackException
      */
     public function list(array $queryParams = []): array
@@ -43,6 +49,8 @@ class Transaction extends ApiResource
 
     /**
      * Fetch a transaction.
+     *
+     * @see https://paystack.com/docs/api/transaction/#fetch
      *
      * @throws PaystackException
      */

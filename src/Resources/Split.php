@@ -14,6 +14,8 @@ class Split extends ApiResource
     /**
      * Create a split.
      *
+     * @see https://paystack.com/docs/api/split/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -23,6 +25,8 @@ class Split extends ApiResource
 
     /**
      * List splits.
+     *
+     * @see https://paystack.com/docs/api/split/#list
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Split extends ApiResource
     /**
      * Fetch a split.
      *
+     * @see https://paystack.com/docs/api/split/#fetch
+     *
      * @throws PaystackException
      */
     public function fetch(string $id): array
@@ -44,6 +50,8 @@ class Split extends ApiResource
     /**
      * Update a split.
      *
+     * @see https://paystack.com/docs/api/split/#update
+     *
      * @throws PaystackException
      */
     public function update(string $id, array $payload): array
@@ -53,6 +61,10 @@ class Split extends ApiResource
 
     /**
      * Add a subaccount to a split.
+     *
+     * @see https://paystack.com/docs/api/split/#add-subaccount
+     *
+     * @throws PaystackException
      */
     public function addSubaccount(string $id, array $payload): array
     {
@@ -61,6 +73,10 @@ class Split extends ApiResource
 
     /**
      * Remove a subaccount from a split.
+     *
+     * @see https://paystack.com/docs/api/split/#remove-subaccount
+     *
+     * @throws PaystackException
      */
     public function removeSubaccount(string $id, array $payload): array
     {

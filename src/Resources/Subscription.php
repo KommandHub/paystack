@@ -14,6 +14,8 @@ class Subscription extends ApiResource
     /**
      * Create a subscription.
      *
+     * @see https://paystack.com/docs/api/subscription/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -23,6 +25,8 @@ class Subscription extends ApiResource
 
     /**
      * List subscriptions.
+     *
+     * @see https://paystack.com/docs/api/subscription/#list
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Subscription extends ApiResource
     /**
      * Fetch a subscription.
      *
+     * @see https://paystack.com/docs/api/subscription/#fetch
+     *
      * @throws PaystackException
      */
     public function fetch(string $idOrCode): array
@@ -43,6 +49,8 @@ class Subscription extends ApiResource
 
     /**
      * Enable a subscription.
+     *
+     * @see https://paystack.com/docs/api/subscription/#enable
      *
      * @throws PaystackException
      */
@@ -54,6 +62,8 @@ class Subscription extends ApiResource
     /**
      * Disable a subscription.
      *
+     * @see https://paystack.com/docs/api/subscription/#disable
+     *
      * @throws PaystackException
      */
     public function disable(array $payload): array
@@ -64,6 +74,8 @@ class Subscription extends ApiResource
     /**
      * Generate a link for managing a subscription.
      *
+     * @see https://paystack.com/docs/api/subscription/#manage-link
+     *
      * @throws PaystackException
      */
     public function manageLink(string $code): array
@@ -73,6 +85,8 @@ class Subscription extends ApiResource
 
     /**
      * Send a link for managing a subscription.
+     *
+     * @see https://paystack.com/docs/api/subscription/#manage-email
      *
      * @throws PaystackException
      */

@@ -14,6 +14,8 @@ class Refund extends ApiResource
     /**
      * Create a refund.
      *
+     * @see https://paystack.com/docs/api/refund/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -24,6 +26,8 @@ class Refund extends ApiResource
     /**
      * List refunds.
      *
+     * @see https://paystack.com/docs/api/refund/#list
+     *
      * @throws PaystackException
      */
     public function list(array $queryParams = []): array
@@ -33,6 +37,8 @@ class Refund extends ApiResource
 
     /**
      * Fetch a refund.
+     *
+     * @see https://paystack.com/docs/api/refund/#fetch
      *
      * @throws PaystackException
      */

@@ -1,27 +1,80 @@
 # Paystack PHP Library
 
-A framework-agnostic PHP library for integrating Paystack payments using SOLID principles and PSR standards.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kommandhub/paystack.svg?style=flat-square)](https://packagist.org/packages/kommandhub/paystack)
+[![Total Downloads](https://img.shields.io/packagist/dt/kommandhub/paystack.svg?style=flat-square)](https://packagist.org/packages/kommandhub/paystack)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Tests](https://github.com/kommandhub/paystack/actions/workflows/tests.yml/badge.svg)](https://github.com/kommandhub/paystack/actions)
+
+A framework-agnostic PHP library for integrating Paystack payments using SOLID principles and PSR standards. This library provides a clean, object-oriented interface to the Paystack API while remaining flexible enough to work in any PHP environment.
+
+## Table of Contents
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+  - [Initialization](#initialization)
+  - [Using Guzzle and Nyholm PSR-7](#using-guzzle-and-nyholm-psr-7)
+- [Resources](#resources)
+  - [Transactions](#transactions)
+  - [Customers](#customers)
+  - [Transfers](#transfers)
+  - [Subscriptions](#subscriptions)
+  - [Plans](#plans)
+  - [Splits](#splits)
+  - [Subaccounts](#subaccounts)
+  - [Refunds](#refunds)
+  - [Verification](#verification)
+  - [Settlements](#settlements)
+  - [Miscellaneous](#miscellaneous)
+- [Laravel Integration](#laravel-integration)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Installation
+
+You can install the package via composer:
 
 ```bash
 composer require kommandhub/paystack
 ```
 
-*Note: You will also need to install a PSR-18 HTTP Client and PSR-17 HTTP Factories if your framework doesn't provide them (e.g., `guzzlehttp/guzzle` or `nyholm/psr7`).*
+### Requirements
+This library is framework-agnostic and relies on PSR-18 (HTTP Client) and PSR-17 (HTTP Factories) interfaces. You will need to provide your own implementations, such as Guzzle or Symfony HTTP Client.
 
-## Usage
+If you don't have these already, you can install popular implementations:
 
-### Basic Setup
+```bash
+composer require guzzlehttp/guzzle nyholm/psr7
+```
+
+## Basic Usage
+
+### Initialization
+
+To use the library, instantiate the `Paystack` gateway class with your secret key and PSR-18/17 implementations.
+
+```php
+use Kommandhub\Paystack\Paystack;
+
+$paystack = new Paystack(
+    secretKey: 'your_secret_key_here...',
+    client: $psr18Client,         // Instance of Psr\Http\Client\ClientInterface
+    requestFactory: $psr17Factory, // Instance of Psr\Http\Message\RequestFactoryInterface
+    streamFactory: $psr17Factory   // Instance of Psr\Http\Message\StreamFactoryInterface
+);
+```
+
+### Using Guzzle and Nyholm PSR-7
 
 ```php
 use Kommandhub\Paystack\Paystack;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\HttpFactory;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 $secretKey = 'your-secret-key';
 $client = new Client();
-$factory = new HttpFactory();
+$factory = new Psr17Factory();
 
 $paystack = new Paystack(
     $secretKey,
@@ -32,88 +85,151 @@ $paystack = new Paystack(
 );
 ```
 
-### Initialize Transaction
+---
+
+## Resources
+
+### Transactions
+
+Handle payment initialization, verification, and retrieval.
 
 ```php
+// Initialize a transaction
 $response = $paystack->transactions()->initialize([
-    'amount' => 500000, // 5000 Naira in kobo
+    'amount' => 500000, // in kobo
     'email' => 'user@example.com',
     'callback_url' => 'https://your-site.com/callback'
 ]);
 
 if ($response['status']) {
-    $authorizationUrl = $response['data']['authorization_url'];
-    // Redirect user
+    $authUrl = $response['data']['authorization_url'];
 }
-```
 
-### Verify Transaction
+// Verify a transaction
+$response = $paystack->transactions()->verify('reference');
 
-```php
-$response = $paystack->transactions()->verify('transaction-reference');
+// List transactions
+$transactions = $paystack->transactions()->list(['perPage' => 10]);
 
-if ($response['status'] && $response['data']['status'] === 'success') {
-    // Payment successful
-}
+// Fetch a transaction
+$transaction = $paystack->transactions()->fetch('id');
 ```
 
 ### Customers
 
+Manage your customer database.
+
 ```php
 // Create a customer
-$paystack->customers()->create([
+$customer = $paystack->customers()->create([
+    'email' => 'customer@example.com',
     'first_name' => 'John',
-    'last_name' => 'Doe',
-    'email' => 'john@example.com'
+    'last_name' => 'Doe'
 ]);
 
 // List customers
-$paystack->customers()->list();
+$customers = $paystack->customers()->list();
 
 // Fetch a customer
-$paystack->customers()->fetch('john@example.com');
+$customer = $paystack->customers()->fetch('email_or_code');
+
+// Update a customer
+$paystack->customers()->update('CUS_code', ['first_name' => 'Jane']);
 ```
 
-### Plans
+### Transfers
+
+Send money to your customers or vendors.
 
 ```php
-// Create a plan
-$paystack->plans()->create([
-    'name' => 'Monthly Subscription',
-    'amount' => 500000,
-    'interval' => 'monthly'
+// Create a transfer recipient
+$recipient = $paystack->transfers()->recipient([
+    'type' => 'nuban',
+    'name' => 'John Doe',
+    'account_number' => '0001234567',
+    'bank_code' => '058',
+    'currency' => 'NGN'
 ]);
 
-// List plans
-$paystack->plans()->list();
-```
-
-### Split Payments
-
-```php
-$paystack->splits()->create([
-    'name' => 'Test Split',
-    'type' => 'percentage',
-    'currency' => 'NGN',
-    'subaccounts' => [
-        ['subaccount' => 'ACCT_xxxxxxxxx', 'share' => 20],
-        ['subaccount' => 'ACCT_yyyyyyyyy', 'share' => 30],
-    ],
-    'bearer_type' => 'subaccount',
-    'bearer_subaccount' => 'ACCT_xxxxxxxxx'
+// Initiate a transfer
+$transfer = $paystack->transfers()->initiate([
+    'source' => 'balance',
+    'amount' => 50000,
+    'recipient' => $recipient['data']['recipient_code'],
+    'reason' => 'Payment for services'
 ]);
+
+// Verify a transfer
+$paystack->transfers()->verify('reference');
 ```
 
 ### Subscriptions
 
+Manage recurring payments.
+
 ```php
-$paystack->subscriptions()->create([
-    'customer' => 'CUST_xxxxxxxxx',
-    'plan' => 'PLN_xxxxxxxxx'
+// Create a subscription
+$subscription = $paystack->subscriptions()->create([
+    'customer' => 'CUS_code',
+    'plan' => 'PLN_code'
+]);
+
+// Enable/Disable subscription
+$paystack->subscriptions()->enable(['code' => 'SUB_code', 'token' => 'token']);
+$paystack->subscriptions()->disable(['code' => 'SUB_code', 'token' => 'token']);
+
+// Manage link
+$link = $paystack->subscriptions()->manageLink('SUB_code');
+```
+
+### Plans
+
+Create and manage payment plans.
+
+```php
+$plan = $paystack->plans()->create([
+    'name' => 'Monthly Premium',
+    'amount' => 500000,
+    'interval' => 'monthly'
 ]);
 ```
 
+### Splits
+
+Split payments between multiple subaccounts.
+
+```php
+$split = $paystack->splits()->create([
+    'name' => 'Revenue Split',
+    'type' => 'percentage',
+    'currency' => 'NGN',
+    'subaccounts' => [
+        ['subaccount' => 'ACCT_123', 'share' => 20]
+    ],
+    'bearer_type' => 'subaccount'
+]);
+```
+
+### Subaccounts
+
+Manage subaccounts for split payments.
+
+```php
+// Create a subaccount
+$subaccount = $paystack->subaccounts()->create([
+    'business_name' => 'Subaccount Name',
+    'settlement_bank' => '058',
+    'account_number' => '0001234567',
+    'percentage_charge' => 20
+]);
+
+// List subaccounts
+$subaccounts = $paystack->subaccounts()->list();
+```
+
 ### Refunds
+
+Process refunds for transactions.
 
 ```php
 $paystack->refunds()->create([
@@ -122,96 +238,79 @@ $paystack->refunds()->create([
 ]);
 ```
 
+### Verification
+
+Verify customer information.
+
+```php
+// Resolve Account Number
+$account = $paystack->verification()->resolveAccount('0001234567', '058');
+
+// Resolve Card BIN
+$bin = $paystack->verification()->resolveCardBin('539983');
+```
+
+### Settlements
+
+List settlements and transactions.
+
+```php
+$settlements = $paystack->settlements()->list();
+$transactions = $paystack->settlements()->transactions('settlement_id');
+```
+
 ### Miscellaneous
+
+Access miscellaneous Paystack features.
 
 ```php
 // List banks
-$paystack->miscellaneous()->listBanks(['country' => 'nigeria']);
+$banks = $paystack->miscellaneous()->listBanks(['country' => 'nigeria']);
 
 // List countries
-$paystack->miscellaneous()->listCountries();
-
-// List states (for AVS)
-$paystack->miscellaneous()->listStates('US');
+$countries = $paystack->miscellaneous()->listCountries();
 ```
 
-## Features
+---
 
-- Framework agnostic with native **Laravel** (^10.0, ^11.0, ^12.0) support.
-- Uses PSR-18 (HTTP Client) and PSR-17 (HTTP Factories).
-- SOLID design principles.
-- Clean and intuitive API.
-- Laravel Facade and Service Provider included.
-- Supports Transactions, Customers, Plans, Splits, Subscriptions, Refunds, and Miscellaneous (Banks, Countries, AVS States).
+## Laravel Integration
 
-## Laravel Support
+The library comes with a built-in Service Provider and Facade for Laravel.
 
-### 1. Configuration
+### Setup
+The service provider is automatically registered via package discovery.
 
-Publish the configuration file:
-
+Publish the config file:
 ```bash
 php artisan vendor:publish --tag="paystack-config"
 ```
 
-Add your Paystack secret key to your `.env` file:
-
+Add your secret key to `.env`:
 ```env
-PAYSTACK_SECRET_KEY=your_secret_key_here
+PAYSTACK_SECRET_KEY=your_secret_key_here_key
 ```
 
-### 2. Usage with Facade
-
+### Usage in Laravel
 ```php
 use Kommandhub\Paystack\Laravel\Facades\Paystack;
 
 $response = Paystack::transactions()->initialize([
-    'amount' => 500000,
+    'amount' => 5000,
     'email' => 'user@example.com'
 ]);
 ```
 
-### 3. Usage with Dependency Injection
-
-```php
-use Kommandhub\Paystack\Paystack;
-
-public function __construct(Paystack $paystack)
-{
-    $this->paystack = $paystack;
-}
-
-public function pay()
-{
-    return $this->paystack->transactions()->initialize([...]);
-}
-```
+---
 
 ## Testing
-
-To run the tests, use:
 
 ```bash
 composer test
 ```
 
-## Code Styling
+## Contributing
 
-This project uses Laravel Pint for code styling. To check for style issues, run:
-
-```bash
-composer lint
-```
-
-To automatically format the code, run:
-
-```bash
-composer format
-```
-
-## Examples
-
-You can find ready-to-use examples in the `examples` directory. To run them, check the [Examples README](examples/README.md).
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 

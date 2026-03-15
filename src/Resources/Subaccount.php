@@ -14,6 +14,8 @@ class Subaccount extends ApiResource
     /**
      * Create a subaccount.
      *
+     * @see https://paystack.com/docs/api/subaccount/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -23,6 +25,8 @@ class Subaccount extends ApiResource
 
     /**
      * List subaccounts.
+     *
+     * @see https://paystack.com/docs/api/subaccount/#list
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Subaccount extends ApiResource
     /**
      * Fetch a subaccount.
      *
+     * @see https://paystack.com/docs/api/subaccount/#fetch
+     *
      * @throws PaystackException
      */
     public function fetch(string $idOrCode): array
@@ -43,6 +49,8 @@ class Subaccount extends ApiResource
 
     /**
      * Update a subaccount.
+     *
+     * @see https://paystack.com/docs/api/subaccount/#update
      *
      * @throws PaystackException
      */

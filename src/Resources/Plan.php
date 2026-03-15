@@ -14,6 +14,8 @@ class Plan extends ApiResource
     /**
      * Create a plan.
      *
+     * @see https://paystack.com/docs/api/plan/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -23,6 +25,8 @@ class Plan extends ApiResource
 
     /**
      * List plans.
+     *
+     * @see https://paystack.com/docs/api/plan/#list
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Plan extends ApiResource
     /**
      * Fetch a plan.
      *
+     * @see https://paystack.com/docs/api/plan/#fetch
+     *
      * @throws PaystackException
      */
     public function fetch(string $idOrCode): array
@@ -43,6 +49,8 @@ class Plan extends ApiResource
 
     /**
      * Update a plan.
+     *
+     * @see https://paystack.com/docs/api/plan/#update
      *
      * @throws PaystackException
      */

@@ -10,10 +10,13 @@ use Kommandhub\Paystack\Resources\Customer;
 use Kommandhub\Paystack\Resources\Miscellaneous;
 use Kommandhub\Paystack\Resources\Plan;
 use Kommandhub\Paystack\Resources\Refund;
+use Kommandhub\Paystack\Resources\Settlement;
 use Kommandhub\Paystack\Resources\Split;
 use Kommandhub\Paystack\Resources\Subaccount;
 use Kommandhub\Paystack\Resources\Subscription;
 use Kommandhub\Paystack\Resources\Transaction;
+use Kommandhub\Paystack\Resources\Transfer;
+use Kommandhub\Paystack\Resources\Verification;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -113,5 +116,29 @@ class Paystack
     public function miscellaneous(): Miscellaneous
     {
         return new Miscellaneous($this->httpClient);
+    }
+
+    /**
+     * Get the transfers resource.
+     */
+    public function transfers(): Transfer
+    {
+        return new Transfer($this->httpClient);
+    }
+
+    /**
+     * Get the settlements resource.
+     */
+    public function settlements(): Settlement
+    {
+        return new Settlement($this->httpClient);
+    }
+
+    /**
+     * Get the verification resource.
+     */
+    public function verification(): Verification
+    {
+        return new Verification($this->httpClient);
     }
 }

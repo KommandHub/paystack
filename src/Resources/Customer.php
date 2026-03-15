@@ -14,6 +14,8 @@ class Customer extends ApiResource
     /**
      * Create a customer.
      *
+     * @see https://paystack.com/docs/api/customer/#create
+     *
      * @throws PaystackException
      */
     public function create(array $payload): array
@@ -23,6 +25,8 @@ class Customer extends ApiResource
 
     /**
      * List customers.
+     *
+     * @see https://paystack.com/docs/api/customer/#list
      *
      * @throws PaystackException
      */
@@ -34,6 +38,8 @@ class Customer extends ApiResource
     /**
      * Fetch a customer.
      *
+     * @see https://paystack.com/docs/api/customer/#fetch
+     *
      * @throws PaystackException
      */
     public function fetch(string $emailOrCode): array
@@ -43,6 +49,8 @@ class Customer extends ApiResource
 
     /**
      * Update a customer.
+     *
+     * @see https://paystack.com/docs/api/customer/#update
      *
      * @throws PaystackException
      */
