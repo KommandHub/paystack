@@ -13,3 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated `README.md` with detailed installation and usage instructions.
+- Replaced `laravel/pint` with `friendsofphp/php-cs-fixer` and `phpstan/phpstan` for linting and formatting.
