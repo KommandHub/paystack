@@ -7,4 +7,6 @@ namespace Kommandhub\Paystack\Exceptions;
 /**
  * Class PaystackException
  */
-class PaystackException extends \Exception {}
+class PaystackException extends \Exception
+{
+}

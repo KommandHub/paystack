@@ -24,8 +24,8 @@ class PaystackTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mockClient = new Client;
-        $psr17Factory = new Psr17Factory;
+        $this->mockClient = new Client();
+        $psr17Factory = new Psr17Factory();
 
         $this->paystack = new Paystack(
             'sk_test_123',

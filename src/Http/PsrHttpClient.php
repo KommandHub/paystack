@@ -27,7 +27,8 @@ class PsrHttpClient implements HttpClientInterface
         private readonly ClientInterface $client,
         private readonly RequestFactoryInterface $requestFactory,
         private readonly StreamFactoryInterface $streamFactory
-    ) {}
+    ) {
+    }
 
     /**
      * Send a GET request.

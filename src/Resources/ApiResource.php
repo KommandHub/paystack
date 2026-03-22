@@ -14,7 +14,9 @@ abstract class ApiResource
     /**
      * ApiResource constructor.
      */
-    public function __construct(protected HttpClientInterface $httpClient) {}
+    public function __construct(protected HttpClientInterface $httpClient)
+    {
+    }
 
     /**
      * Parse the response from the API.

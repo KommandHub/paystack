@@ -19,8 +19,8 @@ abstract class ResourceTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->mockClient = new Client;
-        $this->psr17Factory = new Psr17Factory;
+        $this->mockClient = new Client();
+        $this->psr17Factory = new Psr17Factory();
 
         $this->paystack = new Paystack(
             'sk_test_123',
