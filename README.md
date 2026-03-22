@@ -27,6 +27,7 @@ A framework-agnostic PHP library for integrating Paystack payments using SOLID p
   - [Miscellaneous](#miscellaneous)
 - [Laravel Integration](#laravel-integration)
 - [Testing](#testing)
+- [Development (Docker)](#development-docker)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -308,6 +309,40 @@ $response = Paystack::transactions()->initialize([
 ```bash
 composer test
 ```
+
+## Development (Docker)
+
+This project includes a Docker environment for easy development.
+
+### Requirements
+- Docker
+- Docker Compose
+
+### Getting Started
+
+1.  **Build and start the container:**
+    ```bash
+    make build
+    ```
+
+2.  **Access the shell:**
+    ```bash
+    make shell
+    ```
+
+3.  **Run tests inside the container:**
+    ```bash
+    composer test
+    ```
+
+4.  **Stop the environment:**
+    ```bash
+    make down
+    ```
+
+Alternatively, you can use `docker-compose` commands directly:
+- `docker-compose up -d`
+- `docker-compose exec app sh`
 
 ## Contributing
 
