@@ -25,7 +25,6 @@ A framework-agnostic PHP library for integrating Paystack payments using SOLID p
   - [Verification](#verification)
   - [Settlements](#settlements)
   - [Miscellaneous](#miscellaneous)
-- [Laravel Integration](#laravel-integration)
 - [Testing](#testing)
 - [Development (Docker)](#development-docker)
 - [Contributing](#contributing)
@@ -271,35 +270,6 @@ $banks = $paystack->miscellaneous()->listBanks(['country' => 'nigeria']);
 
 // List countries
 $countries = $paystack->miscellaneous()->listCountries();
-```
-
----
-
-## Laravel Integration
-
-The library comes with a built-in Service Provider and Facade for Laravel.
-
-### Setup
-The service provider is automatically registered via package discovery.
-
-Publish the config file:
-```bash
-php artisan vendor:publish --tag="paystack-config"
-```
-
-Add your secret key to `.env`:
-```env
-PAYSTACK_SECRET_KEY=your_secret_key_here
-```
-
-### Usage in Laravel
-```php
-use Kommandhub\Paystack\Laravel\Facades\Paystack;
-
-$response = Paystack::transactions()->initialize([
-    'amount' => 5000,
-    'email' => 'user@example.com'
-]);
 ```
 
 ---
